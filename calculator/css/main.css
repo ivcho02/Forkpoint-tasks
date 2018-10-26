@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#calculator {
+    margin: 10px;
+    width: 500px;
+    height: 700px;
+    border: 1px solid green;
+    padding: 10px;
+
+}
+
+#screen {
+    width: 90%;
+    height: 50px;
+    margin: 20px auto;
+    border: 1px solid blue;
+}
+#buttons {
+    height: 100%;
+    width: 100%
+}
+
+button { 
+    width: 24%;
+    height: 16.2%;
+    border-radius: 20px;
+    outline: none;
+    margin: 1px;
+}
