@@ -12,9 +12,6 @@ var pointFlag = false;
 
 document.body.addEventListener('keydown', function(ev) {
     let lastsym = screen.value.substring(screen.value.length , screen.value.length -1);
-    
-    
-    
 
     if (ev.keyCode === 13) {
         calculate();
@@ -80,6 +77,12 @@ buttons.addEventListener('click', function (ev) {
 
     let digit = ev.target.value;
 
+    console.log(ev);
+
+    if (ev.key === lastsym && ev.key.match(regEx.signs)) {
+        return false;
+    }
+
     if (digit === lastsym && digit.match(regEx.signs)) {
         return;
     } 
@@ -87,8 +90,19 @@ buttons.addEventListener('click', function (ev) {
     if (digit.match(regEx.signs) && lastsym.match(regEx.signs) && lastsym !== digit) {
         backspace();
     } 
+
+    if(pointFlag && ev.target.innerText === '.') {
+        return;
+    }
         
     insert(digit);
+
+    if(lastsym === '.') {
+        pointFlag = true;
+    }
+    if(ev.target.innerText.match(regEx.signs)) {
+        pointFlag = false;
+    }
 });
 
 function insert(symbol) {
