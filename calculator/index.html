@@ -8,31 +8,34 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <div id="calculator">
-        <form action="index.html">
-            <input type="text" name="screen" id="screen" onkeypress="return /[+-/*()]-?|[0-9]/i.test(event.key)" autocomplete="off">
-        </form>
-        <!--<div id="screen"></div>-->
-        <div id="buttons">
-            <button id="clearEntry" value="CE">CE</button>
-            <button id="clear" value="C">C</button>
-            <button id="point" value=".">.</button>
-            <button id="plus" value="+">+</button>
-            <button id="seven" value="7">7</button>
-            <button id="eight" value="8">8</button>
-            <button id="nine" value="9">9</button>
-            <button id="minus" value="-">-</button>
-            <button id="four" value="4">4</button>
-            <button id="five" value="5">5</button>
-            <button id="six" value="6">6</button>
-            <button id="multiply" value="*">*</button>
-            <button id="one" value="1">1</button>
-            <button id="two" value="2">2</button>
-            <button id="three" value="3">3</button>
-            <button id="divide" value="/">/</button>
-            <button id="zero" value="0">0</button>
-            <button id="equal" value="=">=</button>
-        </div>
+    <div id="wrapper">
+        <div id="calculator">
+                <form action="index.html" onsubmit="return false;">
+                    <input type="text" name="screen" id="screen" placeholder='0' autocomplete="off" disabled>
+                </form>
+                <!--<div id="screen"></div>-->
+                <div id="buttons">
+                    <button id="clearEntry" value="CE">CE</button>
+                    <button id="clear" value="C">C</button>
+                    <button id="point" value=".">.</button>
+                    <button id="plus" value="+">+</button>
+                    <button id="seven" value="7">7</button>
+                    <button id="eight" value="8">8</button>
+                    <button id="nine" value="9">9</button>
+                    <button id="minus" value="-">-</button>
+                    <button id="four" value="4">4</button>
+                    <button id="five" value="5">5</button>
+                    <button id="six" value="6">6</button>
+                    <button id="multiply" value="*">*</button>
+                    <button id="one" value="1">1</button>
+                    <button id="two" value="2">2</button>
+                    <button id="three" value="3">3</button>
+                    <button id="divide" value="/">/</button>
+                    <button id="zero" value="0">0</button>
+                    <button id="equal" value="=">=</button>
+                </div>
+                <div id="logs"></div>
+            </div>
     </div>
 
     <script src="js/main.js"></script>

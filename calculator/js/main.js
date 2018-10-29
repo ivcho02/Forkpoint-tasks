@@ -1,32 +1,45 @@
-var buttons = document.getElementById('buttons'),
+const wrapper = document.getElementById('wrapper'),
+    buttons = document.getElementById('buttons'),
     screen = document.getElementById('screen'),
-    pattern = new RegExp(/^[-+]?[0-9]+([-+*/]+[-+]?[0-9]+)*$/),
-    asd = document.getElementById('clearEntry');
+    divLogs = document.getElementById('logs'),
+    signs = ['+', '-', '/', '*', '.'],
+    regEx = {
+        signs: /[+-/*]/i,
+        insert: /[+-/*]-?|[0-9]/i
+    };
 
-screen.addEventListener('keydown' , function(ev) {
 
-    if(ev.keyCode === 13) {
+document.body.addEventListener('keydown', function(ev) {
+    let lastsym = screen.value.substring(screen.value.length , screen.value.length -1);
+
+    if (ev.keyCode === 13) {
         calculate();
     }
 
-    
-    //return /^\s*([-+]?)(\d+)(?:\s*([-+*\/])\s*((?:\s[-+])?\d+)\s*)+$/g.test(event.key);
-    //console.log(ev);
-    /*var charCode = (ev.which) ? ev.which : ev.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return console.log(ev.key);
-    } else {
-        //console.log(ev)
-       //insert(ev.key);
-       
-    } */
+    if (ev.keyCode === 8) {
+        backspace();
+    }
+
+    if (regEx.insert.test(ev.key)) {
+        if (ev.key === lastsym && ev.key.match(regEx.signs)) {
+            return false;
+        } 
+
+        if (ev.key.match(regEx.signs) && lastsym.match(regEx.signs) && lastsym !== ev.key) {
+            backspace();
+        } 
+        
+        insert(ev.key)
+    }
+
+    return false;
 });
 
-
-buttons.addEventListener('click', function(ev) {
+buttons.addEventListener('click', function (ev) {
     //console.log(ev);
+    let lastsym = screen.value.substring(screen.value.length , screen.value.length -1);
     
-    if(ev.target.tagName !== "BUTTON") {
+    if (ev.target.tagName !== "BUTTON") {
         return;
     }
 
@@ -34,17 +47,27 @@ buttons.addEventListener('click', function(ev) {
         clearScreen();
         return;
     }
+
     if (ev.target.id === 'clear') {
         backspace();
         return;
     }
+
     if (ev.target.id === 'equal') {
         calculate();
         return;
     }
+
     let digit = ev.target.value;
 
+    if (digit === lastsym && digit.match(regEx.signs)) {
+        return;
+    } 
 
+    if (digit.match(regEx.signs) && lastsym.match(regEx.signs) && lastsym !== digit) {
+        backspace();
+    } 
+        
     insert(digit);
 });
 
@@ -61,5 +84,18 @@ function backspace() {
 }
 
 function calculate() {
-    screen.value = eval(screen.value).toFixed(2);
+    let lastsym = screen.value.substring(screen.value.length , screen.value.length -1);
+    if (screen.value !== '') {
+        if (lastsym.match(regEx.signs)) {
+            return;
+        } else {
+            saveLog(screen.value + ' = ' + Math.round(eval(screen.value) * 100) / 100);
+            screen.value = Math.round(eval(screen.value) * 100) / 100;
+        }
+    }
+}
+
+function saveLog(log) {
+    //alert(1);
+    //wrapper.innerHTML += '<label>'+ log + '</label>';
 }
