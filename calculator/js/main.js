@@ -1,17 +1,34 @@
 var buttons = document.getElementById('buttons'),
-    screen = document.getElementById('screen');
+    screen = document.getElementById('screen'),
+    pattern = new RegExp(/^[-+]?[0-9]+([-+*/]+[-+]?[0-9]+)*$/),
+    asd = document.getElementById('clearEntry');
 
-screen.addEventListener('keypress' , function(ev) {
-    //console.log(ev);
-    var charCode = (ev.which) ? ev.which : ev.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        console.log('invalid symbols');
-        backspace();
+screen.addEventListener('keydown' , function(ev) {
+
+    if(ev.keyCode === 13) {
+        calculate();
     }
+
+    
+    //return /^\s*([-+]?)(\d+)(?:\s*([-+*\/])\s*((?:\s[-+])?\d+)\s*)+$/g.test(event.key);
+    //console.log(ev);
+    /*var charCode = (ev.which) ? ev.which : ev.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return console.log(ev.key);
+    } else {
+        //console.log(ev)
+       //insert(ev.key);
+       
+    } */
 });
+
 
 buttons.addEventListener('click', function(ev) {
     //console.log(ev);
+    
+    if(ev.target.tagName !== "BUTTON") {
+        return;
+    }
 
     if (ev.target.id === 'clearEntry') {
         clearScreen();
@@ -25,7 +42,8 @@ buttons.addEventListener('click', function(ev) {
         calculate();
         return;
     }
-    let digit = ev.target.innerText;
+    let digit = ev.target.value;
+
 
     insert(digit);
 });
@@ -43,5 +61,5 @@ function backspace() {
 }
 
 function calculate() {
-    screen.value = eval(screen.value).toFixed();
+    screen.value = eval(screen.value).toFixed(2);
 }
