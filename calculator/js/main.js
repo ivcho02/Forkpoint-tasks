@@ -8,9 +8,13 @@ const wrapper = document.getElementById('wrapper'),
         insert: /[+-/*]-?|[0-9]/i
     };
 
+var pointFlag = false;
 
 document.body.addEventListener('keydown', function(ev) {
     let lastsym = screen.value.substring(screen.value.length , screen.value.length -1);
+    
+    
+    
 
     if (ev.keyCode === 13) {
         calculate();
@@ -20,6 +24,8 @@ document.body.addEventListener('keydown', function(ev) {
         backspace();
     }
 
+    //console.log(ev);
+
     if (regEx.insert.test(ev.key)) {
         if (ev.key === lastsym && ev.key.match(regEx.signs)) {
             return false;
@@ -28,10 +34,24 @@ document.body.addEventListener('keydown', function(ev) {
         if (ev.key.match(regEx.signs) && lastsym.match(regEx.signs) && lastsym !== ev.key) {
             backspace();
         } 
-        
-        insert(ev.key)
-    }
 
+        if(pointFlag && ev.keyCode === 110) {
+            return;
+        }
+       
+
+        
+        insert(ev.key);
+        
+        if(lastsym === '.') {
+            pointFlag = true;
+        }
+        if(ev.key.match(regEx.signs)) {
+            pointFlag = false;
+        }
+
+        console.log(pointFlag);
+    }
     return false;
 });
 
