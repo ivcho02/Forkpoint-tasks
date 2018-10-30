@@ -1,8 +1,6 @@
 const notifications = document.getElementById('notifications'),
     buttons = document.getElementById('buttons'),
     screen = document.getElementById('screen'),
-    divLogs = document.getElementById('logs'),
-    signs = ['+', '-', '/', '*', '.'],
     regEx = {
         signs: /[+-/*]/i,
         insert: /[+-/*]-?|[0-9]/i
@@ -15,20 +13,13 @@ document.body.addEventListener('keydown', function(ev) {
 
     let lastsym = screen.value.substring(screen.value.length , screen.value.length -1);
 
-    if (ev.keyCode === 13) {
-        calculate();
-    }
+    checks(ev);
 
-    if (ev.keyCode === 8) {
-        backspace();
-    }
-    if(screen.value.length === 16) { 
+    if(screen.value.length >= 16) {
         notifications.innerHTML = "<p class='notification'><label>Maximum length value reached.</label></p>";
         resetNot();
         return;
     }
-
-    //console.log(ev);
 
     if (regEx.insert.test(ev.key)) {
         if (ev.key === lastsym && ev.key.match(regEx.signs)) {
@@ -60,9 +51,7 @@ document.body.addEventListener('keydown', function(ev) {
             pointFlag = false;
         }
 
-
         insert(ev.key);
-        //console.log(pointFlag);
     }
     return false;
 });
@@ -70,34 +59,20 @@ document.body.addEventListener('keydown', function(ev) {
 buttons.addEventListener('click', function (ev) {
     let lastsym = screen.value.substring(screen.value.length , screen.value.length -1);
 
-    if(screen.value.length === 16) { 
-        notifications.innerHTML = "<p class='notification'><label>Maximum length value reached.</label></p>";
-        resetNot();
-        return;
-    }
-
     if (ev.target.tagName !== "BUTTON") {
         return;
     }
 
-    if (ev.target.id === 'clearEntry') {
-        clearScreen();
-        return;
-    }
+    checks(ev);
 
-    if (ev.target.id === 'clear') {
-        backspace();
+    if(screen.value.length >= 16) {
+        notifications.innerHTML = "<p class='notification'><label>Maximum length value reached.</label></p>";
+        resetNot();
         return;
     }
-
-    if (ev.target.id === 'equal') {
-        calculate();
-        return;
-    }
+    
 
     let digit = ev.target.value;
-
-    console.log(ev);
 
     if (ev.key === lastsym && ev.key.match(regEx.signs)) {
         return false;
@@ -135,6 +110,28 @@ buttons.addEventListener('click', function (ev) {
     insert(digit);
 });
 
+function checks(ev) {
+
+    console.log(ev);
+
+    if ((ev.target.id === 'clear' && ev.type === 'click') || (ev.keyCode === 8 && ev.type === 'keydown')) {
+        return backspace();
+    }
+    if (ev.target.id === 'clearEntry' && ev.type === 'click') {
+        return clearScreen();
+    }
+
+    if ((ev.target.id === 'equal' && ev.type === 'click') || (ev.keyCode === 13 && ev.type === 'keydown')) {
+        return calculate();
+    }
+
+    /*
+    if ((ev.target.innerText.match(regEx.signs) && ev.type === 'click') || (ev.key.match(regEx.signs) && ev.type === "keydown")) {
+        pointFlag = false;
+    }
+    */
+}
+
 function insert(symbol) {
     screen.value += symbol;
 }
@@ -167,5 +164,6 @@ function calculate() {
 function resetNot() {
     setTimeout(function () {
         notifications.innerHTML = '';
-    }, 22000);
+    }, 3000);
 }
+
