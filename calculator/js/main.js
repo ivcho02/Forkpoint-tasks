@@ -1,4 +1,4 @@
-const wrapper = document.getElementById('wrapper'),
+const notifications = document.getElementById('notifications'),
     buttons = document.getElementById('buttons'),
     screen = document.getElementById('screen'),
     divLogs = document.getElementById('logs'),
@@ -8,9 +8,11 @@ const wrapper = document.getElementById('wrapper'),
         insert: /[+-/*]-?|[0-9]/i
     };
 
-var pointFlag = false;
+var pointFlag = false,
+    zeroFlag = false;
 
 document.body.addEventListener('keydown', function(ev) {
+
     let lastsym = screen.value.substring(screen.value.length , screen.value.length -1);
 
     if (ev.keyCode === 13) {
@@ -20,6 +22,11 @@ document.body.addEventListener('keydown', function(ev) {
     if (ev.keyCode === 8) {
         backspace();
     }
+    if(screen.value.length === 16) { 
+        notifications.innerHTML = "<p class='notification'><label>Maximum length value reached.</label></p>";
+        resetNot();
+        return;
+    }
 
     //console.log(ev);
 
@@ -28,17 +35,23 @@ document.body.addEventListener('keydown', function(ev) {
             return false;
         } 
 
+        if (pointFlag && ev.key === '.') {
+            return;
+        }
+
+        if (zeroFlag && ev.key === '0') {
+            return;
+        }
+
         if (ev.key.match(regEx.signs) && lastsym.match(regEx.signs) && lastsym !== ev.key) {
             backspace();
         } 
 
-        if(pointFlag && ev.keyCode === 110) {
-            return;
+        if (screen.value  === '' && ev.key === '0') {
+            zeroFlag = true;
+        } else {
+            zeroFlag = false;
         }
-       
-
-        
-        insert(ev.key);
         
         if(lastsym === '.') {
             pointFlag = true;
@@ -47,15 +60,22 @@ document.body.addEventListener('keydown', function(ev) {
             pointFlag = false;
         }
 
-        console.log(pointFlag);
+
+        insert(ev.key);
+        //console.log(pointFlag);
     }
     return false;
 });
 
 buttons.addEventListener('click', function (ev) {
-    //console.log(ev);
     let lastsym = screen.value.substring(screen.value.length , screen.value.length -1);
-    
+
+    if(screen.value.length === 16) { 
+        notifications.innerHTML = "<p class='notification'><label>Maximum length value reached.</label></p>";
+        resetNot();
+        return;
+    }
+
     if (ev.target.tagName !== "BUTTON") {
         return;
     }
@@ -85,24 +105,34 @@ buttons.addEventListener('click', function (ev) {
 
     if (digit === lastsym && digit.match(regEx.signs)) {
         return;
-    } 
-
-    if (digit.match(regEx.signs) && lastsym.match(regEx.signs) && lastsym !== digit) {
-        backspace();
-    } 
+    }  
 
     if(pointFlag && ev.target.innerText === '.') {
         return;
     }
-        
-    insert(digit);
+    if (zeroFlag && ev.target.innerText === '0') {
+        return;
+    }
 
-    if(lastsym === '.') {
+    if (digit.match(regEx.signs) && lastsym.match(regEx.signs) && lastsym !== digit) {
+        backspace();
+    }
+
+    if (lastsym === '.') {
         pointFlag = true;
     }
-    if(ev.target.innerText.match(regEx.signs)) {
+
+    if (ev.target.innerText.match(regEx.signs)) {
         pointFlag = false;
     }
+
+    if (screen.value  === '' && ev.target.innerText === '0') {
+        zeroFlag = true;
+    } else {
+        zeroFlag = false;
+    }
+        
+    insert(digit);
 });
 
 function insert(symbol) {
@@ -123,13 +153,19 @@ function calculate() {
         if (lastsym.match(regEx.signs)) {
             return;
         } else {
-            saveLog(screen.value + ' = ' + Math.round(eval(screen.value) * 100) / 100);
+            //saveLog(screen.value + ' = ' + Math.round(eval(screen.value) * 100) / 100);
+            if(eval(screen.value) === Infinity) {
+                notifications.innerHTML = "<p class='notification'><label>Can't divide by zeroooo.</label></p>";
+                resetNot();
+                return;
+            }
             screen.value = Math.round(eval(screen.value) * 100) / 100;
         }
     }
 }
 
-function saveLog(log) {
-    //alert(1);
-    //wrapper.innerHTML += '<label>'+ log + '</label>';
+function resetNot() {
+    setTimeout(function () {
+        notifications.innerHTML = '';
+    }, 22000);
 }
