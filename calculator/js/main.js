@@ -1,4 +1,5 @@
 const notifications = document.getElementById('notifications'),
+    calc = document.getElementById('calculator');
     buttons = document.getElementById('buttons'),
     screen = document.getElementById('screen'),
     regEx = {
@@ -6,31 +7,26 @@ const notifications = document.getElementById('notifications'),
         insert: /[+-/*]-?|[0-9]/i
     };
 
-var pointFlag = false,
+let pointFlag = false,
     zeroFlag = false;
 
 document.body.addEventListener('keydown', function(ev) {
+    let screenValue = screen.value,
+        lastsym = screenValue.substring(screen.value.length , screenValue.length -1);
 
-    let lastsym = screen.value.substring(screen.value.length , screen.value.length -1);
+    checkSpecialButtons(ev);
 
-    checks(ev);
-
-    if(screen.value.length >= 16) {
+    if(screenValue.length >= 16) {
         notifications.innerHTML = "<p class='notification'><label>Maximum length value reached.</label></p>";
+        calc.style = "animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both; transform: translate3d(0, 0, 0); backface-visibility: hidden; perspective: 1000px;";
         resetNot();
         return;
     }
 
     if (regEx.insert.test(ev.key)) {
-        if (ev.key === lastsym && ev.key.match(regEx.signs)) {
-            return false;
-        } 
-
-        if (pointFlag && ev.key === '.') {
-            return;
-        }
-
-        if (zeroFlag && ev.key === '0') {
+        if (pointFlag && ev.key === '.' 
+            || zeroFlag && ev.key === '0'
+            || ev.key === lastsym && ev.key.match(regEx.signs)) {
             return;
         }
 
@@ -38,7 +34,7 @@ document.body.addEventListener('keydown', function(ev) {
             backspace();
         } 
 
-        if (screen.value  === '' && ev.key === '0') {
+        if (screenValue  === '' && ev.key === '0') {
             zeroFlag = true;
         } else {
             zeroFlag = false;
@@ -46,46 +42,36 @@ document.body.addEventListener('keydown', function(ev) {
         
         if(lastsym === '.') {
             pointFlag = true;
-        }
-        if(ev.key.match(regEx.signs)) {
+        } else if (ev.key.match(regEx.signs)) {
             pointFlag = false;
         }
 
         insert(ev.key);
     }
-    return false;
 });
 
 buttons.addEventListener('click', function (ev) {
-    let lastsym = screen.value.substring(screen.value.length , screen.value.length -1);
+    let screenValue = screen.value,
+        lastsym = screenValue.substring(screenValue.length , screenValue.length -1);
 
     if (ev.target.tagName !== "BUTTON") {
         return;
     }
 
-    checks(ev);
+    checkSpecialButtons(ev);
 
-    if(screen.value.length >= 16) {
+    if(screenValue.length >= 16) {
         notifications.innerHTML = "<p class='notification'><label>Maximum length value reached.</label></p>";
+        calc.style = "animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both; transform: translate3d(0, 0, 0); backface-visibility: hidden; perspective: 1000px;";
         resetNot();
         return;
     }
     
-
     let digit = ev.target.value;
 
-    if (ev.key === lastsym && ev.key.match(regEx.signs)) {
-        return false;
-    }
-
-    if (digit === lastsym && digit.match(regEx.signs)) {
-        return;
-    }  
-
-    if(pointFlag && ev.target.innerText === '.') {
-        return;
-    }
-    if (zeroFlag && ev.target.innerText === '0') {
+    if (pointFlag && ev.target.innerText === '.' 
+        || zeroFlag && ev.target.innerText === '0' 
+        || digit === lastsym && digit.match(regEx.signs)) {
         return;
     }
 
@@ -95,13 +81,11 @@ buttons.addEventListener('click', function (ev) {
 
     if (lastsym === '.') {
         pointFlag = true;
-    }
-
-    if (ev.target.innerText.match(regEx.signs)) {
+    } else if (ev.target.innerText.match(regEx.signs)) {
         pointFlag = false;
     }
 
-    if (screen.value  === '' && ev.target.innerText === '0') {
+    if (screenValue  === '' && ev.target.innerText === '0') {
         zeroFlag = true;
     } else {
         zeroFlag = false;
@@ -110,9 +94,7 @@ buttons.addEventListener('click', function (ev) {
     insert(digit);
 });
 
-function checks(ev) {
-
-    console.log(ev);
+function checkSpecialButtons(ev) {
 
     if ((ev.target.id === 'clear' && ev.type === 'click') || (ev.keyCode === 8 && ev.type === 'keydown')) {
         return backspace();
@@ -124,12 +106,6 @@ function checks(ev) {
     if ((ev.target.id === 'equal' && ev.type === 'click') || (ev.keyCode === 13 && ev.type === 'keydown')) {
         return calculate();
     }
-
-    /*
-    if ((ev.target.innerText.match(regEx.signs) && ev.type === 'click') || (ev.key.match(regEx.signs) && ev.type === "keydown")) {
-        pointFlag = false;
-    }
-    */
 }
 
 function insert(symbol) {
@@ -145,18 +121,21 @@ function backspace() {
 }
 
 function calculate() {
-    let lastsym = screen.value.substring(screen.value.length , screen.value.length -1);
-    if (screen.value !== '') {
+    let screenValue = screen.value,
+        lastsym = screenValue.substring(screenValue.length , screenValue.length -1);
+
+    if (screenValue !== '') {
         if (lastsym.match(regEx.signs)) {
             return;
         } else {
-            //saveLog(screen.value + ' = ' + Math.round(eval(screen.value) * 100) / 100);
-            if(eval(screen.value) === Infinity) {
+            //saveLog(screenValue + ' = ' + Math.round(eval(screenValue) * 100) / 100);
+            if (eval(screenValue) === Infinity) {
                 notifications.innerHTML = "<p class='notification'><label>Can't divide by zeroooo.</label></p>";
+                calc.style = "animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both; transform: translate3d(0, 0, 0); backface-visibility: hidden; perspective: 1000px;";
                 resetNot();
                 return;
             }
-            screen.value = Math.round(eval(screen.value) * 100) / 100;
+            screen.value = Math.round(eval(screenValue) * 100) / 100;
         }
     }
 }
@@ -164,6 +143,6 @@ function calculate() {
 function resetNot() {
     setTimeout(function () {
         notifications.innerHTML = '';
+        calc.style = '';
     }, 3000);
 }
-

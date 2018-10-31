@@ -1,6 +1,6 @@
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    opacity: 1; /* Firefox */
+::placeholder {
+    opacity: 1; 
     color:rgb(0, 54, 116);
 }
 body {
@@ -14,48 +14,30 @@ body {
     font-family: 'Helvetica';
     margin: 30px auto;
     text-align: center;
-    color: #FFF;
-    font-weight: bold;
-    text-shadow: 0px 1px 2px rgba(0,0,0,0.25);
-    line-height: 5em;
     padding: 20px;
-    position: relative;
-    height: 5em;
     width: 500px;
     height: 700px;
     background: rgba(194, 194, 194, 0.295);
     box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.15);
     border-radius: 4px;
 }
-#wrapper:before {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    height: 100%;
-    top: 0; right: 0; left: 0;
-    filter: blur(2px);
-    -webkit-filter: blur(15px);
-    -moz-filter: blur(15px);
-    -o-filter: blur(15px);
-    -ms-filter: blur(15px);
-}
 #calculator {
     width: 100%;
     height: 100%;
-    /*filter: blur(10px); */
 }
 
 #screen {
-    width: 100%;
+    width: 88%;
     height: 50px;
     margin: 20px auto;
-    font-size: 40px;
+    font-size: 50px;
     text-align: right;
     background-color: #8AC2DD;
     caret-color: transparent !important;
     border: 1px solid steelblue;
     border-radius: 7px;
     color:rgb(0, 54, 116);
+    padding: 10px;
 }
 #buttons {
     height: 100%;
@@ -66,27 +48,40 @@ button {
     width: 22%;
     height: 16.2%;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.904);
+    background: rgba(255, 255, 255, 0.849);
     outline: none;
-    margin: 1px;
+    margin: 2px;
     font-size: 30px;
     border:none;
-    text-shadow: 9px #ddd;
+    text-shadow: 9px #000;
 }
 button:hover {
-    border: 2px solid #eee;
-    -webkit-transition: width 2s; /* Safari */
-    transition: width 2s;
-    -webkit-transform: scale(0.95);
-    -moz-transform: scale(0.95);
-    -ms-transform: scale(0.95);
-    -o-transform: scale(0.95);
+    border: 1px solid steelblue;
+    transition-property: initial;
+    transition-duration: 0.3s;
 }
 .notification {
-    background: rgba(255, 197, 39, 0.87);
-    padding: 10px;
+    background: rgba(255, 187, 0, 0.87);
+    padding: 20px;
     border-radius: 10px;
     font-size: 20px;
-    color: #000; 
+    color: rgb(88, 65, 0); 
     margin-top: 30px;
 }
+@keyframes shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+    
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+  
+    30%, 50%, 70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+  
+    40%, 60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
