@@ -23,7 +23,7 @@ document.body.addEventListener('keydown', function(ev) {
         return;
     }
 
-    if (regEx.insert.test(ev.key)) {
+    if (regEx.insert.test(ev.key) && !(ev.keyCode >= 112 && ev.keyCode <= 123)) {
         if (pointFlag && ev.key === '.' 
             || zeroFlag && ev.key === '0'
             || ev.key === lastsym && ev.key.match(regEx.signs) 
