@@ -3,7 +3,7 @@ const notifications = document.getElementById('notifications'),
     buttons = document.getElementById('buttons'),
     screen = document.getElementById('screen'),
     regEx = {
-        signs: /[+-/*]/i,
+        signs: /[+-/*]/gi,
         insert: /[+-/*]-?|[0-9]/i
     };
 
@@ -26,11 +26,12 @@ document.body.addEventListener('keydown', function(ev) {
     if (regEx.insert.test(ev.key)) {
         if (pointFlag && ev.key === '.' 
             || zeroFlag && ev.key === '0'
-            || ev.key === lastsym && ev.key.match(regEx.signs)) {
+            || ev.key === lastsym && ev.key.match(regEx.signs) 
+            || lastsym.match(regEx.signs) && ev.key === '.') {
             return;
         }
-
-        if (ev.key.match(regEx.signs) && lastsym.match(regEx.signs) && lastsym !== ev.key) {
+        
+        if (lastsym.match(regEx.signs) && ev.key.match(regEx.signs)) {
             backspace();
         } 
 
@@ -71,7 +72,8 @@ buttons.addEventListener('click', function (ev) {
 
     if (pointFlag && ev.target.innerText === '.' 
         || zeroFlag && ev.target.innerText === '0' 
-        || digit === lastsym && digit.match(regEx.signs)) {
+        || digit === lastsym && digit.match(regEx.signs)
+        || lastsym.match(regEx.signs) && ev.target.innerText === '.') {
         return;
     }
 
@@ -117,6 +119,29 @@ function clearScreen() {
 }
 
 function backspace() {
+    let screenValue = screen.value;
+
+    let lastsym = screenValue.substring(screenValue.length , screenValue.length -1);
+
+    if (lastsym.match(regEx.signs)) {
+        
+        let strval = screen.value.substring(0, screen.value.length - 1),
+            indexSign1 = strval.lastIndexOf('+') + 1,
+            indexSign2 = strval.lastIndexOf('-') + 1,
+            indexSign3 = strval.lastIndexOf('/') + 1,
+            indexSign4 = strval.lastIndexOf('*') + 1;
+        res = screenValue.substr(Math.max(indexSign1,indexSign2,indexSign3,indexSign4));
+
+        if(res.includes('.')) {
+            pointFlag = true;
+        } else {
+            pointFlag = false;
+        }
+    }  
+    if (lastsym === '.') {
+        pointFlag = false;
+    }
+
     screen.value = screen.value.substring(0, screen.value.length - 1);
 }
 
