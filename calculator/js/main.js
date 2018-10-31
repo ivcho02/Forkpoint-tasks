@@ -22,15 +22,9 @@ document.body.addEventListener('keydown', function(ev) {
     }
 
     if (regEx.insert.test(ev.key)) {
-        if (ev.key === lastsym && ev.key.match(regEx.signs)) {
-            return false;
-        } 
-
-        if (pointFlag && ev.key === '.') {
-            return;
-        }
-
-        if (zeroFlag && ev.key === '0') {
+        if (pointFlag && ev.key === '.' 
+            || zeroFlag && ev.key === '0'
+            || ev.key === lastsym && ev.key.match(regEx.signs)) {
             return;
         }
 
@@ -46,8 +40,7 @@ document.body.addEventListener('keydown', function(ev) {
         
         if(lastsym === '.') {
             pointFlag = true;
-        }
-        if(ev.key.match(regEx.signs)) {
+        } else if (ev.key.match(regEx.signs)) {
             pointFlag = false;
         }
 
@@ -74,18 +67,10 @@ buttons.addEventListener('click', function (ev) {
 
     let digit = ev.target.value;
 
-    if (ev.key === lastsym && ev.key.match(regEx.signs)) {
-        return false;
-    }
-
-    if (digit === lastsym && digit.match(regEx.signs)) {
-        return;
-    }  
-
-    if(pointFlag && ev.target.innerText === '.') {
-        return;
-    }
-    if (zeroFlag && ev.target.innerText === '0') {
+    if (pointFlag && ev.target.innerText === '.' 
+        || zeroFlag && ev.target.innerText === '0' 
+        || digit === lastsym && digit.match(regEx.signs) 
+        || ev.key === lastsym && ev.key.match(regEx.signs)) {
         return;
     }
 
@@ -95,9 +80,7 @@ buttons.addEventListener('click', function (ev) {
 
     if (lastsym === '.') {
         pointFlag = true;
-    }
-
-    if (ev.target.innerText.match(regEx.signs)) {
+    } else if (ev.target.innerText.match(regEx.signs)) {
         pointFlag = false;
     }
 
