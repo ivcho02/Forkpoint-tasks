@@ -170,7 +170,6 @@ function notification(msg) {
 
     setTimeout(function () {
         notifications.innerHTML = '';
-        calc.remove = '';
         calc.classList.remove('messageShake');
     }, 3000);
 }
