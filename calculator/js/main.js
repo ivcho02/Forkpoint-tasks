@@ -22,16 +22,16 @@ document.body.addEventListener('keydown', function (ev) {
         return;
     }
 
-    if (lastsym.match(regEx.signs) && ev.key.match(regEx.signs)) {
-        backspace();
-    } 
-
     checkSpecialButtons(ev);
 
     if (screenValue.length >= 16) {
         notification("Maximum length value reached.");
         return;
     }
+
+    if (lastsym.match(regEx.signs) && ev.key.match(regEx.signs)) {
+        backspace();
+    } 
 
     if (regEx.insert.test(ev.key) 
         && !(ev.keyCode >= 112 && ev.keyCode <= 123)) {
@@ -72,6 +72,9 @@ buttons.addEventListener('click', function (ev) {
 });
 
 function checkSpecialButtons(ev) {
+    if(ev.key === undefined) {
+        ev.key = 'hack';
+    }
 
     if ((ev.target.id === 'clear' && ev.type === 'click') || (ev.keyCode === 8 && ev.type === 'keydown')) {
         return backspace();
@@ -86,7 +89,6 @@ function checkSpecialButtons(ev) {
     let screenValue = screen.value;
     let lastsym = screenValue.substring(screenValue.length , screenValue.length -1);
 
-
     if (lastsym === '.') {
         pointFlag = true;
     } else if ((ev.target.innerText.match(regEx.signs) && ev.type === 'click')
@@ -99,7 +101,6 @@ function checkSpecialButtons(ev) {
     } else {
         zeroFlag = false;
     }
-    console.log("Has point: "+ pointFlag);
 }
 
 function insert(symbol) {
