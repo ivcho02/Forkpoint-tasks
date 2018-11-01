@@ -3,8 +3,8 @@ const calc = document.getElementById('calculator');
 const buttons = document.getElementById('buttons');
 const screen = document.getElementById('screen');
 const regEx = {
-        signs: /[+-/*]-?/gi,
-        insert: /[+-/*]-?|[0-9]/
+        signs: /[.*/+-]-?/gi,
+        insert: /[.*/+-]-?|[0-9]/
     };
 
 let pointFlag = false;
