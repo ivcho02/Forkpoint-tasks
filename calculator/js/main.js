@@ -3,9 +3,10 @@ const calc = document.getElementById('calculator');
 const buttons = document.getElementById('buttons');
 const screen = document.getElementById('screen');
 const regEx = {
-        signs: /[.*/+-]-?/gi,
-        insert: /[.*/+-]-?|[0-9]/
-    };
+    signs: /[.*/+-]-?/gi,
+    regLastSign: /(\d*\.)?\d+$/,
+    insert: /[.*/+-]-?|[0-9]/
+};
 
 let pointFlag = false;
 let zeroFlag = false;
@@ -121,13 +122,10 @@ function backspace() {
         lastsym = screenValue.substring(screenValue.length , screenValue.length -1);
 
     if (lastsym.match(regEx.signs)) {
-        
-        let strval = screen.value.substring(0, screen.value.length -1),
-            indexSign1 = strval.lastIndexOf('+') + 1,
-            indexSign2 = strval.lastIndexOf('-') + 1,
-            indexSign3 = strval.lastIndexOf('/') + 1,
-            indexSign4 = strval.lastIndexOf('*') + 1;
-        res = strval.substr(Math.max(indexSign1,indexSign2,indexSign3,indexSign4));
+        let strval = screen.value.substring(0, screen.value.length -1);
+        let lastIndexSign = strval.search(regEx.regLastSign);
+
+        res = strval.substr(lastIndexSign);
 
         if(res.includes('.')) {
             pointFlag = true;
@@ -149,12 +147,13 @@ function calculate() {
         if (lastsym.match(regEx.signs)) {
             return;
         } else {
-            //saveLog(screenValue + ' = ' + Math.round(eval(screenValue) * 100) / 100);
             if (eval(screenValue) === Infinity) {
                 notificaiton("Can't divide by zeroooo.");
                 return;
             }
+
             screen.value = Math.round(eval(screenValue) * 100) / 100;
+
             if(screen.value.includes('.')) {
                 pointFlag = true;
             } else {
