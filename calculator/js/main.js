@@ -1,29 +1,28 @@
-const notifications = document.getElementById('notifications'),
-    calc = document.getElementById('calculator');
-    buttons = document.getElementById('buttons'),
-    screen = document.getElementById('screen'),
-    regEx = {
-        signs: /[+-/*]/gi,
-        insert: /[+-/*]-?|[0-9]/i
+const notifications = document.getElementById('notifications');
+const calc = document.getElementById('calculator');
+const buttons = document.getElementById('buttons');
+const screen = document.getElementById('screen');
+const regEx = {
+        signs: /[+-/*]-?/gi,
+        insert: /[+-/*]-?|[0-9]/
     };
 
-let pointFlag = false,
-    zeroFlag = false;
+let pointFlag = false;
+let zeroFlag = false;
 
-document.body.addEventListener('keydown', function(ev) {
-    let screenValue = screen.value,
-        lastsym = screenValue.substring(screen.value.length , screenValue.length -1);
+document.body.addEventListener('keydown', function (ev) {
+    let screenValue = screen.value;
+    let lastsym = screenValue.substring(screen.value.length , screenValue.length -1);
 
     checkSpecialButtons(ev);
 
-    if(screenValue.length >= 16) {
-        notifications.innerHTML = "<p class='notification'><label>Maximum length value reached.</label></p>";
-        calc.style = "animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both; transform: translate3d(0, 0, 0); backface-visibility: hidden; perspective: 1000px;";
-        resetNot();
+    if (screenValue.length >= 16) {
+        notification("Maximum length value reached.");
         return;
     }
 
-    if (regEx.insert.test(ev.key) && !(ev.keyCode >= 112 && ev.keyCode <= 123)) {
+    if (regEx.insert.test(ev.key) 
+        && !(ev.keyCode >= 112 && ev.keyCode <= 123)) {
         if (pointFlag && ev.key === '.' 
             || zeroFlag && ev.key === '0'
             || ev.key === lastsym && ev.key.match(regEx.signs) 
@@ -31,29 +30,30 @@ document.body.addEventListener('keydown', function(ev) {
             return;
         }
         
-        if (lastsym.match(regEx.signs) && ev.key.match(regEx.signs)) {
-            backspace();
-        } 
-
         if (screenValue  === '' && ev.key === '0') {
             zeroFlag = true;
         } else {
             zeroFlag = false;
         }
         
-        if(lastsym === '.') {
+        if (lastsym === '.') {
             pointFlag = true;
         } else if (ev.key.match(regEx.signs)) {
             pointFlag = false;
         }
 
+        if (lastsym.match(regEx.signs) && ev.key.match(regEx.signs)) {
+            backspace();
+        } 
+
         insert(ev.key);
-    }
+    } 
+    return;
 });
 
 buttons.addEventListener('click', function (ev) {
-    let screenValue = screen.value,
-        lastsym = screenValue.substring(screenValue.length , screenValue.length -1);
+    let screenValue = screen.value;
+    let lastsym = screenValue.substring(screenValue.length , screenValue.length -1);
 
     if (ev.target.tagName !== "BUTTON") {
         return;
@@ -61,10 +61,8 @@ buttons.addEventListener('click', function (ev) {
 
     checkSpecialButtons(ev);
 
-    if(screenValue.length >= 16) {
-        notifications.innerHTML = "<p class='notification'><label>Maximum length value reached.</label></p>";
-        calc.style = "animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both; transform: translate3d(0, 0, 0); backface-visibility: hidden; perspective: 1000px;";
-        resetNot();
+    if (screenValue.length >= 16) {
+        notification("Maximum length value reached.");
         return;
     }
     
@@ -119,18 +117,17 @@ function clearScreen() {
 }
 
 function backspace() {
-    let screenValue = screen.value;
-
-    let lastsym = screenValue.substring(screenValue.length , screenValue.length -1);
+    let screenValue = screen.value,
+        lastsym = screenValue.substring(screenValue.length , screenValue.length -1);
 
     if (lastsym.match(regEx.signs)) {
         
-        let strval = screen.value.substring(0, screen.value.length - 1),
+        let strval = screen.value.substring(0, screen.value.length -1),
             indexSign1 = strval.lastIndexOf('+') + 1,
             indexSign2 = strval.lastIndexOf('-') + 1,
             indexSign3 = strval.lastIndexOf('/') + 1,
             indexSign4 = strval.lastIndexOf('*') + 1;
-        res = screenValue.substr(Math.max(indexSign1,indexSign2,indexSign3,indexSign4));
+        res = strval.substr(Math.max(indexSign1,indexSign2,indexSign3,indexSign4));
 
         if(res.includes('.')) {
             pointFlag = true;
@@ -141,13 +138,12 @@ function backspace() {
     if (lastsym === '.') {
         pointFlag = false;
     }
-
     screen.value = screen.value.substring(0, screen.value.length - 1);
 }
 
 function calculate() {
-    let screenValue = screen.value,
-        lastsym = screenValue.substring(screenValue.length , screenValue.length -1);
+    let screenValue = screen.value;
+    let lastsym = screenValue.substring(screenValue.length , screenValue.length -1);
 
     if (screenValue !== '') {
         if (lastsym.match(regEx.signs)) {
@@ -155,19 +151,26 @@ function calculate() {
         } else {
             //saveLog(screenValue + ' = ' + Math.round(eval(screenValue) * 100) / 100);
             if (eval(screenValue) === Infinity) {
-                notifications.innerHTML = "<p class='notification'><label>Can't divide by zeroooo.</label></p>";
-                calc.style = "animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both; transform: translate3d(0, 0, 0); backface-visibility: hidden; perspective: 1000px;";
-                resetNot();
+                notificaiton("Can't divide by zeroooo.");
                 return;
             }
             screen.value = Math.round(eval(screenValue) * 100) / 100;
+            if(screen.value.includes('.')) {
+                pointFlag = true;
+            } else {
+                pointFlag = false;
+            }
         }
     }
 }
 
-function resetNot() {
+function notification(msg) {
+    notifications.innerHTML = "<p class='notification'><label>" + msg + "</label></p>";
+    calc.classList.add('messageShake');
+
     setTimeout(function () {
         notifications.innerHTML = '';
-        calc.style = '';
+        calc.remove = '';
+        calc.classList.remove('messageShake');
     }, 3000);
 }
