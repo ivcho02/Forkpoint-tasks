@@ -17,12 +17,12 @@ input {
 
 #formDiv {
     float: left;
-    width: 30%;
+    width: 50%;
     height: 45%;
 }
 
 #mapDiv {
-    width: 70%;
+    width: 50%;
     height: 100%;
     float: right;
 }

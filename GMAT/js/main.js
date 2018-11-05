@@ -10,18 +10,27 @@ const regEx = {
     phoneField: /^\+?\d+(-\d+)*$/g,
     websiteField: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/g
 };
-let saveData = JSON.parse(localStorage.saveData || null) || {};
 
+let peopleArray = localStorage.getItem('people') ? JSON.parse(localStorage.getItem('people')) : [];
 //let QUERY = addressField.value;
 
 window.addEventListener('DOMContentLoaded', function() {
     nameField.focus();
 });
 
-addressField.style = '';
+
+Storage.prototype.insertPerson = function(person) {
+    peopleArray.push(person);
+    localStorage.setItem('people', JSON.stringify(peopleArray));
+}
+
+/*
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+});*/
 
 function validateForm() {
-
     let newPerson = {
         name: nameField.value,
         email: emailField.value,
@@ -29,17 +38,18 @@ function validateForm() {
         website: websiteField.value,
         address: addressField.value
     }
+  
+    localStorage.insertPerson(newPerson);
 
-    function saveStuff(obj) {
-
+    /*function saveStuff(obj) {
         saveData.obj = obj;
         saveData.time = new Date().getTime();
         localStorage.saveData = JSON.stringify(saveData);
     }
+    saveStuff(newPerson);*/
 
-    if (saveData.time) alert("You were here: " + saveData.time);
-
-    saveStuff(newPerson);
+   // localStorage.setObject(newPerson.name, newPerson);
+    alert('data saved!');
     return false;
 }
 
@@ -47,8 +57,15 @@ function clearLocalStorage() {
     localStorage.clear();
 }
 
-people.innerHTML += saveData.obj.name || "No stored data in local storage!";
-console.log(saveData.obj);
+people.innerHTML += localStorage || "No stored data in local storage!";
+
+console.log(localStorage);
+
+for (let i = 0; i < localStorage.length; i++) {
+    let td = document.createElement(td);
+    //td.innerHTML = localStorage.people[]
+}
+//console.log(localStorage.getObject());
 
 
 
