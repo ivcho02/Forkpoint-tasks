@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Google maps API task</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <div id="formDiv">
+        <form action="" id="form" onsubmit="validateForm()">
+            <div class="form-group">
+                <input id="name" type="text" placeholder="Name" required minlength="3" pattern="^[A-Za-z ]{1,15}$" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input id="address" type="text" placeholder="Address" class="controls" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input id="email" type="email" placeholder="E-mail" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input id="phone" type="tel" placeholder="Phone" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input id="website" type="text" placeholder="Website" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save">
+            </div>
+        </form>
+        <button onclick="clearLocalStorage();">Clear Storage</button>
+        <div id="peopleDiv">
+            <table>
+                <thead>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>E-mail</th>
+                    <th>Phone</th>
+                    <th>Website</th>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+
+    <div id="mapDiv">
+        <div id="map"></div>
+    </div>
+    
+    <script src="js/googleMaps.js"></script>
+    <script src="js/main.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxtpu-Hs83FRu0dmoJaAZO14IlQVx9Xe8&libraries=places&callback=initAutocomplete" async defer></script>
+    <!-- <iframe width="600" height="450" frameborder="0" style="border:0" id="roadmap" callback=initAutocomplete
+    src="https://www.google.com/maps/embed/v1/search?q=Seattle&key=AIzaSyAxtpu-Hs83FRu0dmoJaAZO14IlQVx9Xe8" allowfullscreen></iframe>-->
+</body>
+
+</html>
