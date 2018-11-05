@@ -17,12 +17,26 @@ input {
 
 #formDiv {
     float: left;
-    width: 50%;
+    width: 30%;
     height: 45%;
 }
 
 #mapDiv {
-    width: 50%;
+    width: 70%;
     height: 100%;
     float: right;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: rgba(59, 111, 255, 0.705);
+    color: white;
 }
