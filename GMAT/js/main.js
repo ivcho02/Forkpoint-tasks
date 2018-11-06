@@ -9,7 +9,7 @@ const websiteField = document.getElementById('website');
 let emails = [];
 for (let i = 0; i < localStorage.length+1; i++) {
     peopleLS = JSON.parse(localStorage.getItem(i));
-    if (i>0) {
+    if (i > 0) {
         emails.push(peopleLS.email);
     }
 }
