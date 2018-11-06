@@ -21,7 +21,12 @@ window.addEventListener('DOMContentLoaded', function() {
     nameField.focus();
 });
 
+emailField.addEventListener('input', function () {
+    setValidationError(emailField.value);
+});
+
 form.addEventListener('submit', function () {
+
     let newPerson = {
         name: nameField.value,
         email: emailField.value,
@@ -30,15 +35,22 @@ form.addEventListener('submit', function () {
         address: addressField.value
     }
     
-    if(emails.includes(newPerson.email)) {
-        alert('the email exists');
-        return false;
-    } else {
+    if(setValidationError(emailField.value)) {
         let ID = localStorage.length + 1;
         localStorage.insertPerson(ID, newPerson);
         form.submit();
     }
 });
+
+function setValidationError(email) {
+    if(emails.includes(email)) {
+        emailField.setCustomValidity("The email already exists!");
+        return false;
+    } else {
+        emailField.setCustomValidity("");
+        return true;
+    }
+}
 
 Storage.prototype.insertPerson = function(key, value) {
     this.setItem(key, JSON.stringify(value));
