@@ -1,14 +1,11 @@
 const form = document.getElementById('form');
+const notifications = document.getElementById('notifications');
 const nameField = document.getElementById('name');
 const addressField = document.getElementById('address');
 const emailField = document.getElementById('email');
 const phoneField = document.getElementById('phone');
 const websiteField = document.getElementById('website');
-/*const regEx = {
-    nameField: /[A-Za-z]/g,
-    phoneField: /^\+?\d+(-\d+)*$/g,
-    websiteField: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/g
-};*/
+
 let emails = [];
 for (var i = 0; i < localStorage.length+1; i++) {
     peopleLS = JSON.parse(localStorage.getItem(i));
@@ -38,7 +35,8 @@ form.addEventListener('submit', function () {
     if(setValidationError(emailField.value)) {
         let ID = localStorage.length + 1;
         localStorage.insertPerson(ID, newPerson);
-        form.submit();
+        form.reset();
+        notification("Data has been saved successfuly!");
     }
 });
 
@@ -54,4 +52,12 @@ function setValidationError(email) {
 
 Storage.prototype.insertPerson = function(key, value) {
     this.setItem(key, JSON.stringify(value));
+}
+
+function notification(msg) {
+    notifications.innerHTML = "<p class='notification'><label>" + msg + "</label></p>";
+
+    setTimeout(function () {
+        notifications.innerHTML = '';
+    }, 3000);
 }

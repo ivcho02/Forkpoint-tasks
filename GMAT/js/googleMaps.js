@@ -11,11 +11,11 @@ function initAutocomplete() {
   var input = document.getElementById('address');
   var searchBox = new google.maps.places.SearchBox(input);
   var icon = {
-    url: "https://mbtskoudsalg.com/images/google-pin-png-7.png",
-    size: new google.maps.Size(300, 300),
+    url: "images/marker.png",
+    size: new google.maps.Size(30, 50),
     origin: new google.maps.Point(0, 0),
     anchor: new google.maps.Point(17, 34),
-    scaledSize: new google.maps.Size(25, 25)
+    scaledSize: new google.maps.Size(30, 50)
   };
   var geocoder= new google.maps.Geocoder();
   var markers = [];
