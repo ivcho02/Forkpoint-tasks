@@ -38,6 +38,8 @@ form.addEventListener('submit', function () {
         form.reset();
         notification("Data has been saved successfuly!");
     }
+
+    event.preventDefault();
 });
 
 function setValidationError(email) {
@@ -55,7 +57,7 @@ Storage.prototype.insertPerson = function (key, value) {
 }
 
 function notification(msg) {
-    notifications.innerHTML = "<p class='notification'><label>" + msg + "</label></p>";
+    notifications.innerHTML = "<p class='notification'>" + msg + "</p>";
 
     setTimeout(function () {
         notifications.innerHTML = '';
