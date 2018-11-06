@@ -1,5 +1,5 @@
 function initAutocomplete() {
-  var map = new google.maps.Map(document.getElementById('map'), {
+  let map = new google.maps.Map(document.getElementById('map'), {
     center: {
       lat: 43.835571,
       lng: 25.965654
@@ -8,18 +8,18 @@ function initAutocomplete() {
     mapTypeId: 'roadmap'
   });
 
-  var input = document.getElementById('address');
-  var searchBox = new google.maps.places.SearchBox(input);
-  var icon = {
+  const input = document.getElementById('address');
+  let searchBox = new google.maps.places.SearchBox(input);
+  let icon = {
     url: "images/marker.png",
     size: new google.maps.Size(30, 50),
     origin: new google.maps.Point(0, 0),
     anchor: new google.maps.Point(17, 34),
     scaledSize: new google.maps.Size(30, 50)
   };
-  var geocoder= new google.maps.Geocoder();
-  var markers = [];
-  var markerTitle;
+  let geocoder= new google.maps.Geocoder();
+  let markers = [];
+  let markerTitle;
 
   map.addListener('bounds_changed', function () {
     searchBox.setBounds(map.getBounds());
@@ -43,7 +43,7 @@ function initAutocomplete() {
   });
 
   searchBox.addListener('places_changed', function () {
-    var places = searchBox.getPlaces();
+    let places = searchBox.getPlaces();
 
     if (places.length == 0) {
       return;
@@ -53,7 +53,7 @@ function initAutocomplete() {
 
     markers = [];
 
-    var bounds = new google.maps.LatLngBounds();
+    let bounds = new google.maps.LatLngBounds();
     places.forEach(function (place) {
       if (!place.geometry) {
         console.log("Returned place contains no geometry");

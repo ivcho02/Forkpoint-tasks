@@ -7,7 +7,7 @@ const phoneField = document.getElementById('phone');
 const websiteField = document.getElementById('website');
 
 let emails = [];
-for (var i = 0; i < localStorage.length+1; i++) {
+for (let i = 0; i < localStorage.length+1; i++) {
     peopleLS = JSON.parse(localStorage.getItem(i));
     if(i>0) {
         emails.push(peopleLS.email);
@@ -32,7 +32,7 @@ form.addEventListener('submit', function () {
         address: addressField.value
     }
     
-    if(setValidationError(emailField.value)) {
+    if (setValidationError(emailField.value)) {
         let ID = localStorage.length + 1;
         localStorage.insertPerson(ID, newPerson);
         form.reset();
@@ -41,7 +41,7 @@ form.addEventListener('submit', function () {
 });
 
 function setValidationError(email) {
-    if(emails.includes(email)) {
+    if (emails.includes(email)) {
         emailField.setCustomValidity("The email already exists!");
         return false;
     } else {
@@ -50,7 +50,7 @@ function setValidationError(email) {
     }
 }
 
-Storage.prototype.insertPerson = function(key, value) {
+Storage.prototype.insertPerson = function (key, value) {
     this.setItem(key, JSON.stringify(value));
 }
 
