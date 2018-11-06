@@ -1,64 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Google maps API task</title>
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div id="formDiv">
+            <form id="form">
+                <div class="form-group">
+                    <input type="text" id="name" placeholder="Name" autocomplete="off" required pattern="^[A-Z]{1}[a-z]{2,15}(\s[A-Z]{1}[a-z]{2,15})?$" title="Must begin with capital word with range 2-15 (e.g. John / John Smith)">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="address" placeholder="Address" autocomplete="off" required class="controls" >
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="E-mail" autocomplete="off" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="phone" placeholder="Phone" autocomplete="off" required pattern="[+0-9]{10}(\d{3})?" title="Must contains only digits with range 10-13">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="website" placeholder="Website" autocomplete="off" required pattern="^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$" title="Must be valid url address (e.g. www.google.com / https://google.bg/)">
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" id="buttonSave">
+                </div>
+            </form>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Google maps API task</title>
-    <link rel="stylesheet" href="css/main.css">
-</head>
-
-<body>
-    <div id="formDiv">
-        <form action="" id="form" onsubmit="validateForm()">
-            <div class="form-group">
-                <input id="name" type="text" placeholder="Name" required minlength="3" pattern="^[A-Za-z ]{1,15}$" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <input id="address" type="text" placeholder="Address" class="controls" required autocomplete="off">
-            </div>
-            <div class="form-group">
-                <input id="email" type="email" placeholder="E-mail" required autocomplete="off">
-            </div>
-            <div class="form-group">
-                <input id="phone" type="tel" placeholder="Phone" required autocomplete="off">
-            </div>
-            <div class="form-group">
-                <input id="website" type="text" placeholder="Website" required autocomplete="off">
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save">
-            </div>
-        </form>
-        <button onclick="clearLocalStorage();">Clear Storage</button>
-        <div id="peopleDiv">
-            <table>
-                <thead>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>E-mail</th>
-                    <th>Phone</th>
-                    <th>Website</th>
-                </thead>
-                <tbody>
-                
-                </tbody>
-            </table>
+            <div id="notifications"></div>
         </div>
-    </div>
 
-    
-
-    <div id="mapDiv">
-        <div id="map"></div>
-    </div>
-    
-    <script src="js/googleMaps.js"></script>
-    <script src="js/main.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxtpu-Hs83FRu0dmoJaAZO14IlQVx9Xe8&libraries=places&callback=initAutocomplete" async defer></script>
-    <!-- <iframe width="600" height="450" frameborder="0" style="border:0" id="roadmap" callback=initAutocomplete
-    src="https://www.google.com/maps/embed/v1/search?q=Seattle&key=AIzaSyAxtpu-Hs83FRu0dmoJaAZO14IlQVx9Xe8" allowfullscreen></iframe>-->
-</body>
-
+        <div id="mapDiv">
+            <div id="map"></div>
+        </div>
+        
+        <script src="js/googleMaps.js"></script>
+        <script src="js/main.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxtpu-Hs83FRu0dmoJaAZO14IlQVx9Xe8&libraries=places&callback=initAutocomplete" async defer></script>
+    </body>
 </html>

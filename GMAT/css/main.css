@@ -9,20 +9,71 @@
     background-color: #DD2C00;
     color: #ffffff;
 }
-input {
+#form #name,#address,#email,#phone,#website {
     width: 90%;
-    padding: 15px;
-    margin: 5px;
+    margin: 10px;
+    display:block;
+    height:calc(2.25rem + 2px);
+    padding:.375rem .75rem;
+    font-size:1rem;
+    line-height:1.5;
+    color:#495057;
+    background-color:#fff;
+    background-clip:padding-box;
+    border:1px solid #ced4da;
+    border-radius:.25rem;
+}
+#buttonSave {
+    margin-left: 40%;
+    color:#fff;
+    background-color:#0058b1;
+    border-color:#0062cc;
+    display:inline-block;
+    font-weight:400;
+    text-align:center;
+    vertical-align:middle;
+    padding:.375rem .75rem;
+    font-size:1rem;
+    line-height:1.5;
+    border-radius:.25rem;
+}
+
+#buttonSave:hover{
+    color:#fff;
+    background-color: #004488;
+    border-color:#0062cc
 }
 
 #formDiv {
     float: left;
-    width: 50%;
-    height: 45%;
+    width: 30%;
+    height: 100%;
 }
-
 #mapDiv {
-    width: 50%;
+    width: 70%;
     height: 100%;
     float: right;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: rgba(59, 111, 255, 0.705);
+    color: white;
+}
+.notification {
+    background-color: #10a02f94;
+    color: #004606;
+    padding: 15px;
+    border-radius: 7px;
+    border: 1px solid #00881d;
+    margin: 10px;
 }
